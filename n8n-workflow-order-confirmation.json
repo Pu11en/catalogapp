@@ -1,0 +1,101 @@
+{
+  "name": "Salmo Catalog Order Confirmation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "5177882d-5113-4dfa-a661-314c788c88f5",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300],
+      "webhookId": "5177882d-5113-4dfa-a661-314c788c88f5"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "Create a professional order confirmation email for this order:\n\nProduct: {{ $json.product.name }}\nBrand: {{ $json.product.brand }}\nSKU: {{ $json.product.sku }}\nCategory: {{ $json.product.category }}\nVariant: {{ $json.variant.size }}\nPrice per Case: ${{ $json.variant.price }}\nUnits per Case: {{ $json.variant.caseQty }}\nQuantity: {{ $json.quantity }} cases\nTotal: ${{ $json.totalPrice }}\nCustomer Email: {{ $json.email }}\nOrder Date: {{ $json.orderDate }}\n\nCreate a friendly, professional confirmation that:\n1. Thanks them for their order\n2. Lists order details clearly\n3. Shows total price prominently\n4. Mentions 1-2 business day processing time\n5. Includes contact email: orders@salmocatalog.com\n\nFormat as clean HTML for email with inline styles. Use a professional color scheme.",
+        "options": {
+          "systemMessage": "You are an order confirmation assistant for Salmo Catalog, a wholesale food distributor. Generate professional HTML order confirmations that are clean, easy to read, and mobile-friendly."
+        }
+      },
+      "id": "ai-agent-node",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook').item.json.email }}",
+        "subject": "Order Confirmation - Salmo Catalog",
+        "emailType": "html",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "id": "gmail-node",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, message: 'Order confirmed and email sent' } }}",
+        "options": {}
+      },
+      "id": "respond-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1000, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1
+}

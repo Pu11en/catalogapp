@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Home, Search, Package, User, ShoppingBag } from 'lucide-react';
 import { useCartStore } from '@/lib/store';
@@ -20,6 +21,22 @@ export default function AppLayout({
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-950">
+            {/* Header with Logo */}
+            <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800 px-4 py-3">
+                <div className="max-w-lg mx-auto flex items-center justify-center">
+                    <Link href="/home">
+                        <Image
+                            src="/salmo-logo.png"
+                            alt="Salmo Catalog"
+                            width={140}
+                            height={50}
+                            className="object-contain"
+                            priority
+                        />
+                    </Link>
+                </div>
+            </header>
+
             <main className="flex-1 pb-32">
                 {children}
             </main>

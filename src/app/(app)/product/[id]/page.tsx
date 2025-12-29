@@ -4,13 +4,14 @@ import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ChevronLeft, Heart, ShoppingBag, Info, ShieldCheck, Truck, Package } from "lucide-react";
-import AddToCartButton from "@/components/AddToCartButton";
+import ProductOrderForm from "@/components/ProductOrderForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProductDetailPage({ params }: { params: { id: string } }) {
+export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
     const product = await prisma.product.findUnique({
-        where: { id: params.id },
+        where: { id },
         include: { variants: true }
     });
 
@@ -100,16 +101,23 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                 </div>
             </div>
 
-            {/* Footer Action */}
-            <div className="fixed bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent z-50">
-                <AddToCartButton
+            {/* Order Form */}
+            <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent z-50">
+                <ProductOrderForm
                     product={{
                         id: product.id,
                         name: product.name,
                         brand: product.brand,
-                        price: defaultVariant?.price || 0,
-                        image: product.image || undefined
+                        sku: product.sku,
+                        category: product.category,
+                        image: product.image
                     }}
+                    variants={product.variants.map(v => ({
+                        id: v.id,
+                        size: v.size,
+                        price: v.price,
+                        caseQty: v.caseQty
+                    }))}
                 />
             </div>
         </div>

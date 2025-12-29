@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, ShoppingCart, Truck, Search, Package, Clock, CheckCircle, Sparkles } from "lucide-react";
-import AnimatedLogo from "@/components/AnimatedLogo";
 
 export default function LandingPage() {
   return (
@@ -94,9 +93,22 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Animated Logo */}
+            {/* Salmo Corporation Logo */}
             <div className="flex justify-center mb-8">
-              <AnimatedLogo size="xl" />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <Image
+                  src="/salmo-corporation.png"
+                  alt="Salmo Corporation"
+                  width={280}
+                  height={200}
+                  className="object-contain"
+                  priority
+                />
+              </motion.div>
             </div>
 
             <motion.h1
