@@ -38,7 +38,7 @@ export default function AnimatedLogo({ size = "lg", className = "" }: AnimatedLo
             y: 0,
             scale: 1,
             transition: {
-                type: "spring",
+                type: "spring" as const,
                 stiffness: 200,
                 damping: 15,
             },
@@ -51,7 +51,7 @@ export default function AnimatedLogo({ size = "lg", className = "" }: AnimatedLo
             pathLength: 1,
             opacity: 1,
             transition: {
-                pathLength: { duration: 1.2, ease: "easeInOut", delay: 0.5 },
+                pathLength: { duration: 1.2, ease: "easeInOut" as const, delay: 0.5 },
                 opacity: { duration: 0.3, delay: 0.5 },
             },
         },
@@ -65,7 +65,7 @@ export default function AnimatedLogo({ size = "lg", className = "" }: AnimatedLo
             transition: {
                 duration: 0.6,
                 delay: 1.2,
-                ease: "easeOut",
+                ease: "easeOut" as const,
             },
         },
     };
@@ -80,7 +80,7 @@ export default function AnimatedLogo({ size = "lg", className = "" }: AnimatedLo
             transition: {
                 duration: 3,
                 repeat: Infinity,
-                ease: "easeInOut",
+                ease: "easeInOut" as const,
             },
         },
     };
