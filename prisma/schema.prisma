@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Buyer {
+  id           String     @id @default(uuid())
+  phone        String?    @unique
+  pinHash      String?
+  businessName String?
+  contactName  String?
+  email        String     @unique
+  address      String?
+  createdAt    DateTime   @default(now())
+  favorites    Favorite[]
+  orders       Order[]
+}
+
+model Product {
+  id          String     @id @default(uuid())
+  sku         String     @unique
+  name        String
+  brand       String
+  category    String
+  description String?
+  image       String?
+  isNew       Boolean    @default(false)
+  isFeatured  Boolean    @default(false)
+  stock       Int        @default(0)
+  favorites   Favorite[]
+  variants    Variant[]
+}
+
+model Variant {
+  id        String  @id @default(uuid())
+  productId String
+  size      String
+  price     Float
+  caseQty   Int
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  buyerId   String
+  items     String
+  subtotal  Float
+  status    String   @default("pending")
+  notes     String?
+  createdAt DateTime @default(now())
+  buyer     Buyer    @relation(fields: [buyerId], references: [id])
+}
+
+model Favorite {
+  id        String  @id @default(uuid())
+  buyerId   String
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  buyer     Buyer   @relation(fields: [buyerId], references: [id])
+
+  @@unique([buyerId, productId])
+}
