@@ -2,7 +2,12 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0D3B66;
+  --salmo-navy: #0D3B66;
+  --salmo-cyan: #00A8E8;
+  --salmo-light-blue: #47B5E6;
+  --salmo-gray: #F8FAFC;
+  --salmo-dark-gray: #E2E8F0;
 }
 
 .dark {
@@ -21,13 +26,53 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom animations and transitions */
-.glass {
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Salmo Brand Utilities */
+.bg-salmo-navy {
+  background-color: var(--salmo-navy);
 }
 
-.parallax-bg {
-  transform: translateZ(-1px) scale(2);
+.bg-salmo-cyan {
+  background-color: var(--salmo-cyan);
+}
+
+.bg-salmo-light-blue {
+  background-color: var(--salmo-light-blue);
+}
+
+.bg-salmo-gray {
+  background-color: var(--salmo-gray);
+}
+
+.text-salmo-navy {
+  color: var(--salmo-navy);
+}
+
+.text-salmo-cyan {
+  color: var(--salmo-cyan);
+}
+
+.border-salmo-cyan {
+  border-color: var(--salmo-cyan);
+}
+
+/* Wave/Swoosh decoration */
+.wave-bg {
+  background: linear-gradient(135deg, var(--salmo-cyan) 0%, var(--salmo-light-blue) 100%);
+}
+
+/* Glass effect for light theme */
+.glass-light {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(13, 59, 102, 0.1);
+}
+
+/* Button hover gradient */
+.btn-cyan-hover {
+  transition: all 0.3s ease;
+}
+
+.btn-cyan-hover:hover {
+  box-shadow: 0 10px 30px -10px rgba(0, 168, 232, 0.5);
+  transform: translateY(-2px);
 }
