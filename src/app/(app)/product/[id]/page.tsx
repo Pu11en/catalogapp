@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { ChevronLeft, Heart, ShoppingBag, Info, ShieldCheck, Truck, Package } from "lucide-react";
 import AddToCartButton from "@/components/AddToCartButton";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
     const product = await prisma.product.findUnique({
         where: { id: params.id },

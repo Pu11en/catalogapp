@@ -4,6 +4,8 @@ import { Search as SearchIcon, Filter } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 
+export const dynamic = "force-dynamic";
+
 export default async function CatalogPage() {
     const products = await prisma.product.findMany({
         include: {
